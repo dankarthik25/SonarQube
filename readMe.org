@@ -1,0 +1,171 @@
+* Pre Requirement
+- Pre requirement
+  - python installed 
+  - python project(git clone https://)
+  - soanr-scanner
+  - sonar-qube server + database(postegress, oracle) (docker-compose file)
+* Install Sonar-qube(server + database)
+Run Docker Compose file
+
+
+#+begin_src yaml
+# docker-compose up -d
+# docker-compose down -v # remove volume
+
+#+end_src
+
+** Create a project 
+Create a project and it will generate toke store it =sqp_a862ecfef813a166107a3be8aa6110247598030e=
+
+Go to Sonar Scaneer in Linux OS and run cmd in the project directory 
+#+begin_src 
+sonar-scanner \
+  -Dsonar.projectKey=karthik \
+  -Dsonar.sources=. \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=sqp_a862ecfef813a166107a3be8aa6110247598030e
+#+end_src
+
+For Windows
+#+begin_src 
+sonar-scanner.bat -D"sonar.projectKey=karthik" -D"sonar.sources=." -D"sonar.host.url=http://localhost:9000" -D"sonar.login=sqp_a862ecfef813a166107a3be8aa6110247598030e"
+#+end_src
+
+* Install Sonar Scanner and Run Sonar Scaneer
+From [[https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/][link]] Downlaod Sonar Scanner for respective OS (Linux,Windows,Mac-OS)
+
+- Installation setps
+  - install sonar-scanner
+  - connect sonar-scanner with sonar-server(sonarqube)
+    - config scanner sonar-scanner/conf/soar-scanner.properties
+
+# download scanner
+# https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/
+# Download link using wget
+#+begin_src sh
+wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+unzip sonar-scanner-cli-4.6.2.2472-linux.zip && rm sonar-scanner-cli-4.6.2.2472-linux.zip
+mv sonar-scanner-cli-4.6.2.2472-linux sonar-scanner
+# # Edit config sonarscanner file
+cat sonar-scanner/conf/sonar-scanner.properties
+# sonar.host.url=http://localhost:9000
+# sonar.sourceEncoding=UTF-8
+sudo ln -s /home/jayradhey/workspace_deepalgo/sonar-qube/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner /usr/local/bin/sonar-scanner
+# Instead of using path conf
+
+   # # GO to git repo
+   # # git clone and
+#git clone https://efdasfafasdf
+#cd efdasfafasdf
+sonar-scanner \
+  -Dsonar.projectKey=docker-scanner \
+  -Dsonar.sources=. \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=sqp_e04d9323fcff9a2d6c60f35d5d35340e96cb4cff
+
+#/home/jayradhey/workspace_deepalgo/sonar-qube/sonar-scanner/bin/sonar-scanner
+#+end_src
+
+Watch Youtube video : https://www.youtube.com/watch?v=l6yCbIySW8M
+
+
+
+* Source :
+[[https://www.swtestacademy.com/sonarqube-tutorial/ ][Link(swtestacademy):Sonarqube -quality tool]]
+
+[[https://www.youtube.com/watch?v=ow-yuIlCuHk][Youtube: Write cleaner, safer Python code with SonarQube]]
+Demo on how to use Sonarqube in python environment
+
+[[https://www.youtube.com/watch?v=UjCVCvdI73w][Youtube:SonarQube Fundamental Tutorial By Rajesh Kumar in 2020]]
+Lenghty explaination of Sonarqube
+
+
+
+
+
+#+begin_src
+pwd
+#/home/jayradhey/workspace_deepalgo/sonar-qube/sonar-scanner-4.7.0.2747-linux
+tree -L 1
+├── bin
+│   ├── sonar-scanner
+│   └── sonar-scanner-debug
+├── conf
+│   └── sonar-scanner.properties
+├── jre
+│   ├── bin
+│   ├── conf
+│   ├── legal
+│   ├── lib
+│   ├── NOTICE
+│   └── release
+└── lib
+    └── sonar-scanner-cli-4.7.0.2747.jar
+
+sudo wget https:///
+sudo rm sonar-scanner-cli
+sudo vi conf/sonar-scanner.properties
+
+# edit url
+sudo chomd +x sonar-scanner-4.7.0.2747-linux/bin/sonar-scaneer
+sudo ln -s /home/jayradhey/workspace_deepalgo/sonar-qube/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner /usr/local/bin/sonar-scanner
+su - sonar
+
+#+end_src
+
+
+
+* Testing docker scanner
+
+#+begin_src 
+sonar-scanner \
+  -Dsonar.projectKey=docker-scanner \
+  -Dsonar.sources=. \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=sqp_e04d9323fcff9a2d6c60f35d5d35340e96cb4cff
+
+
+
+docker run \
+    --rm \
+    -e SONAR_HOST_URL="http://${SONARQUBE_URL}" \
+    -e SONAR_LOGIN="myAuthenticationToken" \
+    -v "${YOUR_REPO}:/usr/src" \
+    sonarsource/sonar-scanner-cli
+
+
+docker run \
+    --rm \
+    -e SONAR_HOST_URL="http://sonarqube:9000" \
+    -e SONAR_LOGIN="sqp_e04d9323fcff9a2d6c60f35d5d35340e96cb4cff" \
+    -v "/home/jayradhey/workspace_deepalgo/sonar-qube/sms-chatbot-application" \
+    sonarsource/sonar-scanner-cli -Dsonar.projectKey=docker-scanner 
+
+docker run -ti \
+  -v $(pwd):/root/src --link sonarqube mitch/sonarscanner sonar-scanner \
+  -Dsonar.host.url=http://sonarqube:9000 \
+  -Dsonar.jdbc.url=jdbc:h2:tcp://sonarqube/sonar \
+  -Dsonar.projectKey=MyProjectKey \
+  -Dsonar.projectName="My Project Name" \
+  -Dsonar.projectVersion=1 \
+  -Dsonar.projectBaseDir=/root \
+  -Dsonar.sources=./src
+
+
+localhost:9000
+
+
+sonar-scanner \
+  -Dsonar.projectKey=test-1 \
+  -Dsonar.sources=. \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=sqp_b238fbb541ed4db68d28b14b2e49220bd8ad8423
+#+end_src
+
+* Intergrating Sonarqube with aws
+https://aws.amazon.com/blogs/devops/integrating-sonarqube-as-a-pull-request-approver-on-aws-codecommit/
+
+** Docker compose file for sonar-scanner + sonar-server + db (psql)
+https://gist.github.com/ThabetAmer/b818a262c71467c7403fd75bc526b8f9
+** Run SonarQube Server as Docker Image and linking with Sonarscanner
+https://stackoverflow.com/questions/64034632/error-running-sonar-scanner-via-docker-image

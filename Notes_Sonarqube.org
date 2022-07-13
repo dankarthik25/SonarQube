@@ -1,0 +1,87 @@
+** What is SonarQube?
+Sonar is an *open-source software quality platform* . *showcases* them in a rich *web-based dashboard* by *various static & dynamic code analysis tools*. 
+
+- sonarqube (web + db ( orcacel, psql)
+- sonarscanner (java , c++, python )
+    
+What is Code Quality ?
+Indicate *how quickly* developers can *add business* to *software* system is know as Code quality
+Alterative gerrit...etc
+[[https://604223-1956433-raikfcquaxqncofqfm.stackpathdns.com/wp-content/uploads/2015/10/sonar_CI_2016-01-26_21-33-42.png][Sonarqube CI]] 
+ - Developers (Write Code and push on SCm(git,svm, ))
+ - Automatic Build(Jenkins, Bamboo or TeamCity) + Code Analysis
+   - Code (Analysis)
+     - Publish Analysis Report to SQ
+     - manage Issues : Report to Developers
+     - Sonar Qube Database 
+       - Oracle
+       - mysql
+
+Supports languages: Java, C/C++, Objective-C, C#, PHP, Flex, Groovy, JavaScript, Python, PL/SQL, COBOL, etc. (note that some of them are commercial)
+
+** What quality Rules(Bugs, Vulnerabilities,Code Smell) and How to check
+- Quality
+  - Bug
+    - An issue that represents something wrong in the code. If this has not broken yet, it will, and probably at the worst possible moment. This needs to be fixed. 
+  - Code Smell
+    - A maintainability-related issue in the code. Leaving it as-is means that at best maintainers will have a harder time than they should making changes to the code. At worst, they'll be so confused by the state of the code that they'll introduce additional errors as they make changes.
+   - Vulnerability	
+     - A security-related issue which represents a backdoor for attackers. See also Security-related rules
+       
+** Into
+Client request: We need a security scan report of chatbot platform covering the Top-10
+Owasp security vulnerabilities.
+
+** Top 10 vulnerabilities
+
+https://owasp.org/www-project-top-ten/
+1.Broken access control. ...
+2.Cryptographic failures. ...
+3.Injection (or SQL injections)
+4.Insecure design. ...
+5.Security misconfigurations. ...
+6.Vulnerable and outdated components. ...
+7.Identification and authentication failures. ...
+8.Software and data integrity failures
+9.Security logging and monitoring failures
+10. Server-side request forgery (SSRF)
+    
+** SonarQube:
+static code analysis is a collection of algorithms and techniques used to analyze source code in order to automatically find potential errors or poor coding practices. The idea is similar in  spirit to compiler warnings (which can be useful for finding coding errors), but to take that idea a step further and find bugs that are traditionally found using run-time debugging techniques such as testing. Static code analysis, also commonly called "white-box" testing, looks at applications in non-
+runtime environments. It is the only proven method to cover the entire code base and identify all the vulnerable patterns. Static code analysis is also considered as a way to automate code review process.
+** Main Focus : Security Vulnerabilities
+SonarQube
+ SonarQube collects and analyzes source code, measuring quality and providing reports for your projects. It combines static and dynamic analysis tools and enables quality to be measured continuously over time.  Everything that affects our code base, from minor styling details to critical design errors, is inspected and evaluated by SonarQube, thereby enabling developers to access and track code analysis data ranging from styling errors, potential bugs, and code defects to design inefficiencies, code duplication, lack of test coverage, and excess complexity. 
+https://www.sonarqube.org/features/security/owasp/
+[[file:Sonarqube_html_12e751672f615136.png]]
+** SonarQube pre-request:
+https://docs.sonarqube.org/latest/requirements/requirements/
+Runtime environment JAVA 11 or 17
+One of following database:
+- 1.Postgres
+- 2.Oracle
+- 3.Microsoft SQL server
+
+Linux :
+If you're running on linux, you must ensure that :
+- vm.max_map_count is greater than or equal to 524288
+- fs.file-max is greater than or equal to 131072
+- the user running SonarQUBE can open at least 121072 file descriptors
+- The user running SonarQUBE can open at least 8192 threads
+
+You can see the values with the following commands:
+#+begin_src sh
+sysctl vm.max_map_count
+sysctl fs.file-max
+ulimit -n
+ulimit -u
+#+end_src
+
+You can set them dyanmically for the current session by running the following commands as root
+
+#+begin_src 
+sysctl -w vm.max_map_count=524288
+sysctl -w fs.file-max=131072
+ulimit -n 131072
+ulimit -u 8192
+#+end_src
